@@ -1,0 +1,12 @@
+.property-section {
+  margin-bottom: 3.5rem;
+}
+
+.property-section-title {
+  font-size: 1.8rem;
+  color: #023e8a;
+  border-left: 5px solid #d4af37;
+  padding-left: 0.75rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
