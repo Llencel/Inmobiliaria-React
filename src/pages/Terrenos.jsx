@@ -1,5 +1,4 @@
 // src/pages/Terrenos.jsx
-import Header from "../components/Header/Header.jsx";
 import Navbar from "../components/Navbar/Navbar.jsx";
 import PropertyCard from "../components/PropertyCard/PropertyCard.jsx";
 import Footer from "../components/Footer/Footer.jsx";

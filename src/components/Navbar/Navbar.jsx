@@ -7,14 +7,14 @@ const NavBar = () => {
     <nav className="navbar">
       <div className="navbar-container">
 
-        {/* Logo */}
-        <div className="logo">
-          <Link to="/">
+        {/* IZQUIERDA: LOGO */}
+        <div className="navbar-left">
+          <Link to="/" className="logo">
             <img src="/logo_inmobiliaria.png" alt="Logo de la inmobiliaria" />
           </Link>
         </div>
 
-        {/* Links */}
+        {/* CENTRO: LINKS */}
         <ul className="nav-links">
           <li><Link to="/apartamentos">Apartamentos</Link></li>
           <li><Link to="/casas">Casas</Link></li>
@@ -23,10 +23,16 @@ const NavBar = () => {
           <li><Link to="/nosotros">Nosotros</Link></li>
         </ul>
 
+        {/* DERECHA: LOGIN */}
+        <div className="navbar-right">
+          <Link to="/login" className="login-btn">
+            Iniciar sesión
+          </Link>
+        </div>
+
       </div>
     </nav>
   );
 };
 
 export default NavBar;
-
