@@ -17,7 +17,7 @@ const NavBar = () => {
           </Link>
         </div>
 
-        {/* CENTRO: NAVEGACIÓN PÚBLICA (SIEMPRE) */}
+        {/* CENTRO: NAVEGACIÓN */}
         <ul className="nav-links">
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/apartamentos">Apartamentos</Link></li>
@@ -25,6 +25,13 @@ const NavBar = () => {
           <li><Link to="/terrenos">Terrenos</Link></li>
           <li><Link to="/locales">Locales</Link></li>
           <li><Link to="/nosotros">Nosotros</Link></li>
+
+          {isAuthenticated && (
+            <>
+              <li><Link to="/AgentPage">Dashboard</Link></li>
+              <li><Link to="/AgentPage/formulario">Cargar inmueble</Link></li>
+            </>
+          )}
         </ul>
 
         {/* DERECHA: AUTENTICACIÓN */}
@@ -34,17 +41,9 @@ const NavBar = () => {
               Iniciar sesión
             </Link>
           ) : (
-            <>
-              <Link to="/AgentPage" className="agent-btn">
-                Dashboard
-              </Link>
-              <Link to="/AgentPage/formulario" className="agent-btn">
-                Cargar inmueble
-              </Link>
-              <button onClick={logout} className="logout-btn">
-                Cerrar sesión
-              </button>
-            </>
+            <button onClick={logout} className="login-btn">
+              Cerrar sesión
+            </button>
           )}
         </div>
 

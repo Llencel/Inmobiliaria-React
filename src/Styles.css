@@ -607,3 +607,21 @@ footer {
   border-bottom: 1px solid #e2e2e2;
   padding-bottom: 5px;
 }
+
+.primary-btn {
+  background-color: #d4af37;
+  color: #003366;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+

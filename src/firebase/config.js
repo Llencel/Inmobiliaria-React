@@ -1,12 +1,18 @@
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId: "TU_APP_ID",
+  apiKey: "AIzaSyA9vUokdkMxwPO9YCGOqDAR5nrRKWasKL0",
+  authDomain: "inmobiliariaestefaniarodriguez.firebaseapp.com",
+  projectId: "inmobiliariaestefaniarodriguez",
+  storageBucket: "inmobiliariaestefaniarodriguez.firebasestorage.app",
+  messagingSenderId: "164507894423",
+  appId: "1:164507894423:web:75e4538fc170b4d113dfd2",
+  measurementId: "G-9S3B98S43S"
 };
+
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 export const firebaseApp = initializeApp(firebaseConfig);

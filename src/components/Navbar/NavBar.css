@@ -1,3 +1,4 @@
+/* NAVBAR BASE */
 .navbar {
   width: 100%;
   background: linear-gradient(135deg, #023e8a, #0077b6);
@@ -17,7 +18,7 @@
 /* BLOQUES LATERALES */
 .navbar-left,
 .navbar-right {
-  width: 200px; /* CLAVE para centrar el menú */
+  width: 200px;
   display: flex;
   align-items: center;
 }
@@ -35,9 +36,10 @@
   height: 42px;
 }
 
-/* MENÚ CENTRADO */
+/* MENÚ */
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 20px;
   list-style: none;
   margin: 0;
@@ -73,4 +75,32 @@
 .login-btn:hover {
   background-color: #fff1b8;
   color: #023e8a;
+}
+
+
+/* BOTÓN LOGOUT */
+.nav-links button {
+  background: none;
+  border: none;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+  padding: 8px 14px;
+}
+
+.nav-links button:hover {
+  text-decoration: underline;
+}
+
+
+button.login-btn {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #d4af37;
+  color: #023e8a;
+  font-family: inherit;
+  cursor: pointer;
 }

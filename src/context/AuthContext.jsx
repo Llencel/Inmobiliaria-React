@@ -1,17 +1,18 @@
+// src/context/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setCheckingAuth(false);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -21,18 +22,18 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   };
 
-  const value = {
-    user,
-    isAuthenticated: !!user,
-    logout,
-  };
-
-  // ⚠️ NO BLOQUEAMOS LA APP
   return (
-    <AuthContext.Provider value={value}>
-      {!checkingAuth && children}
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        logout,
+      }}
+    >
+      {!loading && children}
     </AuthContext.Provider>
   );
-}
+};
 
 export const useAuth = () => useContext(AuthContext);
+// End of src/context/AuthContext.jsx
