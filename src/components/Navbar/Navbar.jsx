@@ -21,6 +21,7 @@ const NavBar = () => {
           <li><Link to="/terrenos">Terrenos</Link></li>
           <li><Link to="/locales">Locales</Link></li>
           <li><Link to="/nosotros">Nosotros</Link></li>
+          <li><Link to="/">Inicio</Link></li>
         </ul>
 
         {/* DERECHA: LOGIN */}

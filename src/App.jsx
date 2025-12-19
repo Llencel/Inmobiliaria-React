@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 
 // Páginas
+import HomePage from "./pages/HomePage";
 import Apartamentos from "./pages/Apartamentos.jsx";
 import Casas from "./pages/Casas.jsx";
 import Terrenos from "./pages/Terrenos.jsx";
@@ -17,7 +18,7 @@ function App() {
       <Navbar />
 
         <Routes>
-          <Route path="/" element={<Apartamentos />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/apartamentos" element={<Apartamentos />} />
           <Route path="/casas" element={<Casas />} />
           <Route path="/terrenos" element={<Terrenos />} />
