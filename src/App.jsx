@@ -11,6 +11,9 @@ import Casas from "./pages/Casas.jsx";
 import Terrenos from "./pages/Terrenos.jsx";
 import Locales from "./pages/Locales.jsx";
 import Nosotros from "./pages/Nosotros.jsx";
+import { auth } from "./firebase/auth";
+
+console.log("Auth inicializado:", auth);
 
 function App() {
   return (
