@@ -37,7 +37,7 @@ function App() {
           path="/AgentPage/*"
           element={
             <ProtectedRoute>
-              <AgentPage />
+                <AgentPage />
             </ProtectedRoute>
           }
         />

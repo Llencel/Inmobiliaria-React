@@ -13,7 +13,7 @@ const NavBar = () => {
         {/* IZQUIERDA: LOGO */}
         <div className="navbar-left">
           <Link to="/" className="logo">
-            <img src="/logo_inmobiliaria.png" alt="Logo de la inmobiliaria" />
+            <img src="logo_inmobiliaria.png" alt="Logo de la inmobiliaria" />
           </Link>
         </div>
 

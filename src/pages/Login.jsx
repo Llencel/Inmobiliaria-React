@@ -15,7 +15,7 @@ export default function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/panel");
+      navigate("/AgentPage");
     } catch (err) {
       setError("Credenciales incorrectas");
     }
