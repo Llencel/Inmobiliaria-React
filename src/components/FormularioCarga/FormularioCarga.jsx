@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../firebase/config";
 import "./formularioCarga.css";
 
 const camposPorTipo = {
@@ -22,7 +25,13 @@ const camposPorTipo = {
       nombre: "zona",
       label: "Tipo de ubicación",
       tipo: "list",
-      opciones: ["Centro Comercial", "Zona Industrial", "Zona Residencial", "Avenida", "Calle"],
+      opciones: [
+        "Centro Comercial",
+        "Zona Industrial",
+        "Zona Residencial",
+        "Avenida",
+        "Calle",
+      ],
     },
   ],
   terreno: [
@@ -43,26 +52,87 @@ const camposPorTipo = {
 export default function FormularioCarga() {
   const [tipo, setTipo] = useState("");
   const [campos, setCampos] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [imagenes, setImagenes] = useState([]);
 
   useEffect(() => {
     setCampos(camposPorTipo[tipo] || []);
   }, [tipo]);
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // 1️⃣ Subir imágenes a Storage
+      const urls = [];
+
+      for (const img of imagenes) {
+        const imageRef = ref(
+          storage,
+          `inmuebles/${Date.now()}_${img.name}`
+        );
+
+        await uploadBytes(imageRef, img);
+        const url = await getDownloadURL(imageRef);
+        urls.push(url);
+      }
+
+      // 2️⃣ Guardar documento en Firestore
+      await addDoc(collection(db, "inmuebles"), {
+        ...formData,
+        tipo,
+        imagenes: urls,
+        creadoEn: new Date(),
+      });
+
+      alert("Inmueble guardado correctamente");
+
+      // Reset opcional
+      setFormData({});
+      setImagenes([]);
+      setTipo("");
+    } catch (error) {
+      console.error("Error al guardar inmueble:", error);
+      alert("Error al guardar el inmueble");
+    }
+  };
+
   return (
     <section className="form-wrapper">
       <h2>Registrar nuevo inmueble</h2>
 
-      <form className="form-panel">
-
+      <form className="form-panel" onSubmit={handleSubmit}>
         {/* Información general */}
         <div className="card-seccion">
           <h3>Información general</h3>
 
           <label>Título</label>
-          <input type="text" required />
+          <input
+            type="text"
+            name="titulo"
+            onChange={handleChange}
+            required
+          />
 
           <label>Tipo de inmueble</label>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)} required>
+          <select
+            name="tipo"
+            value={tipo}
+            onChange={(e) => {
+              setTipo(e.target.value);
+              handleChange(e);
+            }}
+            required
+          >
             <option value="">Seleccione un tipo</option>
             <option value="casa">Casa</option>
             <option value="apartamento">Apartamento</option>
@@ -78,9 +148,15 @@ export default function FormularioCarga() {
           <h3>Tamaño del inmueble</h3>
 
           {tipo === "terreno" ? (
-            <input type="number" placeholder="Ingrese m² exactos" required />
+            <input
+              type="number"
+              name="area"
+              placeholder="Ingrese m² exactos"
+              onChange={handleChange}
+              required
+            />
           ) : (
-            <select required>
+            <select name="tamano" onChange={handleChange} required>
               <option value="">Seleccione un rango</option>
               <option>25 - 35 m²</option>
               <option>35 - 45 m²</option>
@@ -95,8 +171,20 @@ export default function FormularioCarga() {
         {/* Ubicación */}
         <div className="card-seccion">
           <h3>Ubicación</h3>
-          <input type="text" placeholder="Dirección" required />
-          <input type="text" placeholder="Zona o municipio" required />
+          <input
+            type="text"
+            name="direccion"
+            placeholder="Dirección"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="zona"
+            placeholder="Zona o municipio"
+            onChange={handleChange}
+            required
+          />
 
           <div className="map-placeholder">[Mapa aquí]</div>
         </div>
@@ -104,7 +192,7 @@ export default function FormularioCarga() {
         {/* Precio */}
         <div className="card-seccion">
           <h3>Precio</h3>
-          <select required>
+          <select name="precio" onChange={handleChange} required>
             <option value="">Seleccione un rango</option>
             <option>0 - 5.000.000</option>
             <option>5.000.000 - 10.000.000</option>
@@ -124,18 +212,34 @@ export default function FormularioCarga() {
             if (campo.tipo === "checkbox") {
               return (
                 <label key={campo.nombre} className="checkbox-row">
-                  <input type="checkbox" /> {campo.label}
+                  <input
+                    type="checkbox"
+                    name={campo.nombre}
+                    onChange={handleChange}
+                  />
+                  {campo.label}
                 </label>
               );
             }
 
             if (campo.tipo === "textarea") {
-              return <textarea key={campo.nombre} placeholder={campo.label} />;
+              return (
+                <textarea
+                  key={campo.nombre}
+                  name={campo.nombre}
+                  placeholder={campo.label}
+                  onChange={handleChange}
+                />
+              );
             }
 
             if (campo.tipo === "list") {
               return (
-                <select key={campo.nombre}>
+                <select
+                  key={campo.nombre}
+                  name={campo.nombre}
+                  onChange={handleChange}
+                >
                   <option value="">Seleccione</option>
                   {campo.opciones.map((op) => (
                     <option key={op}>{op}</option>
@@ -144,18 +248,33 @@ export default function FormularioCarga() {
               );
             }
 
-            return <input key={campo.nombre} type={campo.tipo} placeholder={campo.label} />;
+            return (
+              <input
+                key={campo.nombre}
+                type={campo.tipo}
+                name={campo.nombre}
+                placeholder={campo.label}
+                onChange={handleChange}
+              />
+            );
           })}
         </div>
 
         {/* Fotos */}
         <div className="card-seccion">
           <h3>Fotos</h3>
-          <input type="file" accept="image/*" required />
-          <input type="file" accept="image/*" multiple required />
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => setImagenes([...e.target.files])}
+            required
+          />
         </div>
 
-        <button className="btn-primary">Guardar inmueble</button>
+        <button type="submit" className="btn-primary">
+          Guardar inmueble
+        </button>
       </form>
     </section>
   );
