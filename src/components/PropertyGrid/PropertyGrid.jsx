@@ -1,11 +1,24 @@
-import "./PropertyGrid.css";
+import PropertyCard from "../PropertyCard/PropertyCard";
 
-const PropertyGrid = ({ children }) => {
+export default function PropertyGrid({ inmuebles }) {
+
+  if (!inmuebles || inmuebles.length === 0) {
+    return <p>No hay inmuebles disponibles</p>;
+  }
+
   return (
     <div className="property-grid">
-      {children}
+      {inmuebles.map((inmueble) => {
+        console.log("Inmueble recibido:", inmueble);
+
+        return (
+          <PropertyCard
+            key={inmueble.id}
+            inmueble={inmueble}   // 👈 ESTA ES LA LÍNEA CRÍTICA
+          />
+        );
+      })}
     </div>
   );
-};
+}
 
-export default PropertyGrid;

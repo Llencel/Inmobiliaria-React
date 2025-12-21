@@ -2,9 +2,6 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// ❌ NO importes analytics por ahora
-// import { getAnalytics } from "firebase/analytics";
-
 const firebaseConfig = {
   apiKey: "AIzaSyA9vUokdkMxwPO9YCGOqDAR5nrRKWasKL0",
   authDomain: "inmobiliariaestefaniarodriguez.firebaseapp.com",
